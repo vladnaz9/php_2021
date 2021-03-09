@@ -9,8 +9,10 @@ if (isset($_REQUEST["string"])) {
         for ($i = 0; $i < strlen($string); $i++) {
             yield $i;
         }
+
+        echo "кол-во генераций: " . (countMe() - 1);
         echo "<br>";
-        echo "кол-во генераций :".(countMe() - 1);
+        echo allInString("");
     }
 
     function countMe(): int
@@ -20,29 +22,36 @@ if (isset($_REQUEST["string"])) {
         return $count;
     }
 
+    function allInString($char): string
+    {
+        static $result = "";
+        $result .= (string)$char;
+        return $result;
+    }
+
 
     $generator = perebor($string);
     foreach ($generator as $index) {
         $newString = str_split($string, $length = 1);
         switch ($newString[$index]) {
             case "h" :
-                echo "4";
+                allInString("4");
                 countMe();
                 break;
             case "l" :
-                echo "1";
+                allInString("1");
                 countMe();
                 break;
             case "e" :
-                echo "3";
+                allInString("3");
                 countMe();
                 break;
             case "o" :
-                echo "0";
+                allInString( "0");
                 countMe();
                 break;
             default :
-                echo $newString[$index];
+                allInString($newString[$index]);
         } //endswitch;
     }
 } else {
