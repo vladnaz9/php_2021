@@ -9,31 +9,27 @@ if (isset($_REQUEST["form"])) {
 
     foreach ($strings as $s1) {
         $length = strlen($s1);
-        $weight = (int) $s1[$length - 1];
-
-//        echo $weight.' ';
-//        echo $s."<br>";
+        $weight = (int)$s1[$length - 1];
         $sum += $weight;
     }
     $forJson["sum"] = $sum;
 
     foreach ($strings as $s) {
-        $weight =(int) $s[strlen($s) - 1];
+        $weight = (int)$s[strlen($s) - 1];
         $s = substr($s, 0, -1);
         $data[] = [
             "text" => $s,
             "weight" => $weight,
             "probability" => ($weight / $sum)
         ];
-//        echo ($weight / $sum)."<br>";
     }
     $forJson["data"] = $data;
-    echo json_encode($forJson, JSON_UNESCAPED_UNICODE);
+//    echo json_encode($forJson, JSON_UNESCAPED_UNICODE);
 
     //------------ВТОРОЕ ЗАДАНИЕ-------------------
 
     foreach ($strings as $s) {
-        $weight = (int) $s[strlen($s) - 1];
+        $weight = (int)$s[strlen($s) - 1];
         $s = substr($s, 0, -1);
         $newData[] = [
             0 => $s,
@@ -44,36 +40,35 @@ if (isset($_REQUEST["form"])) {
 
     function randomGenerator($newData)
     {
-//         asort($newData);
         $chances = [];
         $range = [];
         $sumOfRange = 0;
-        foreach ($newData as $datum) {
-//            var_dump($datum)."<br>";
-            list($text,$probability) = $datum;
 
-//            echo $sumOfRange."    +  ";
-//            echo $probability."  =   ";
-            $sumOfRange += round( $probability * 10000, 0);
-//            echo $sumOfRange." <br>";
+        foreach ($newData as $datum) {
+            list($text, $probability) = $datum;
+            $sumOfRange += round($probability * 10000, 0);
             $chances[] = $sumOfRange;
             $range[$sumOfRange] = $text;
-//            var_dump($range)."<br>";
         }
-//        echo "<br>";
-//        var_dump($newData);
-        $random = mt_rand(0, 10000) ;
+
+        $random = mt_rand(0, 10000);
+//        echo $random."<br>";
 //        if ($random < 0.7) //для оптимальности
-        var_dump($random);
+//        var_dump($random);
         $last = 0;
+        $result = [];
         foreach ($chances as $ch) {
 //            echo $ch."<br>";
-            if ($random > $ch ) {
+            if ($random > $ch) {
                 $last = $ch;
                 continue;
             } else {
                 $chance = ($ch - $last) / 10000;
-                yield [
+//                yield [
+//                    "text" => $range[$ch],
+//                    "chance" => $chance
+//                ];
+                $result = [
                     "text" => $range[$ch],
                     "chance" => $chance
                 ];
@@ -81,40 +76,57 @@ if (isset($_REQUEST["form"])) {
             }
         }
 
-    }
-
-    foreach (randomGenerator($newData) as $result) {
-        echo $result["text"]."  with chance: ";
-        echo $result["chance"];
         return $result;
     }
 
 
-    function check( $to ,$newData) : array {
+//    foreach (randomGenerator($newData) as $result) {
+//        echo $result["text"] . "  with chance: ";
+//        echo $result["chance"];
+//        return $result;
+//    }
+    echo "<br>";
+
+
+    function check($to, $newData): array
+    {
         $result = [];
         for ($i = 0; $i < $to; $i++) {
-            $randomed = randomGenerator($newData) -> getReturn();
-//            var_dump($randomed)."<br>";
-            if (in_array($randomed,$result)) {
-                $key = array_search($randomed,$result);
-                list($text,$count) = $result[$key];
+            $randomed = randomGenerator($newData);
+//            var_dump($randomed);
+            $RandomedText = $randomed["text"];
+            $flag = false;
+            $myKey = 0;
+            $count = 1;
+            foreach ($result as $key => $text){
+                if (!empty($result)) {
+                    if ($text["text"] == $randomed["text"]) {
+                        $flag = true;
+                        $myKey = $key;
+                        $count = $text["count"];
+                        break;
+                    }
+                }
+            }
+            if ($flag) {
                 $count++;
-                $result[$key] = [
-                    "text" => $text,
+                $result[$myKey] = [
+                    "text" => $RandomedText,
                     "count" => $count,
-                    "calculated_probability" => $count / $to
+                    "calculated_probability" => ($randomed["chance"] * $to)
                 ];
             } else {
                 $result[] = [
-                    "text" => $randomed,
-                    "count" => 1
+                    "text" => $RandomedText,
+                    "count" => 1,
+                    "calculated_probability" => ($randomed["chance"] * $to)
                 ];
             }
         }
         return $result;
     }
-    check(10000,$newData);
-  echo json_encode(check(10000,$newData),JSON_UNESCAPED_UNICODE);
+
+    echo json_encode(check(10000, $newData), JSON_UNESCAPED_UNICODE);
 
 
 }//закрытие if
