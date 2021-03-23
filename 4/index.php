@@ -28,7 +28,7 @@ if (isset($_REQUEST["form"])) {
 //        echo ($weight / $sum)."<br>";
     }
     $forJson["data"] = $data;
-//    echo json_encode($forJson, JSON_UNESCAPED_UNICODE);
+    echo json_encode($forJson, JSON_UNESCAPED_UNICODE);
 
     //------------ВТОРОЕ ЗАДАНИЕ-------------------
 
