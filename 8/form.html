@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Календарь</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        let select = document.getElementById("month");
+
+        function f1() {
+            if (document.getElementById("want-box").checked === true) {
+                document.getElementById('month').disabled = false;
+            } else document.getElementById('month').disabled = true;
+        }
+
+    </script>
+</head>
+<body>
+<form  action="http://localhost:63342/untitled/php_2021/8/index.php" method="post" enctype="multipart/form-data"  >
+    <p>
+        Будет выбран текущий месяц.
+        <input type="submit" value="Отправить" name="form"></p>
+        <label>
+            Хочу выбрать свой месяц <input type="checkbox" name="want" id="want-box" onchange="f1" onclick="f1()">
+        </label>
+
+        <select name="month" id="month" disabled>
+            <option disabled>Выберите месяц </option>
+            <option> Январь 01</option>
+            <option> Февраль 02</option>
+            <option> Март 03</option>
+            <option> Апрель 04</option>
+            <option> Май 05</option>
+            <option> Июнь 06</option>
+            <option> Июль 07</option>
+            <option> Август 08</option>
+            <option> Сентябрь 09</option>
+            <option> Октябрь 10</option>
+            <option> Ноябрь 11</option>
+            <option> Декабрь 12</option>
+        </select>
+
+        <!--        Выберете месяц: <input type="text" name="month">-->
+
+
+
+</form>
+</body>
+</html>
