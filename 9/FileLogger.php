@@ -18,7 +18,7 @@ class FileLogger extends Logger
 
     }
 
-    function __destruct()
+   public function __destruct()
     {
         fclose($this->opened);
     }
