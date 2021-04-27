@@ -43,12 +43,27 @@
         <div>
             <textarea name="file" id="file">Введите путь до файла   </textarea>
         </div>
-        <div class="btn-group" id="browBox" role="group" aria-label="Basic example" hidden>
-            <button type="button" class="btn btn-primary" value="d">Дата</button>
-            <button type="button" class="btn btn-primary" value="d+t">Дата+Время</button>
-            <button type="button" class="btn btn-primary" value="no">Ничего</button>
-        </div>
 
+        <div id="browBox" hidden>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="data[]" value="d" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Дата
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="data[]" value="d+t" id="flexRadioDefault2" >
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Дата + Время
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="data[]" value="no" id="flexRadioDefault3" checked>
+                <label class="form-check-label" for="flexRadioDefault3">
+                    Ничего
+                </label>
+            </div>
+        </div>
         <br> <br>
         <div class="button">
             <input type="submit" name="go" value="ВВОД">
